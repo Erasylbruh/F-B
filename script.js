@@ -6,7 +6,6 @@ const oldEl = document.querySelector('.old-element');
 const textChan = document.getElementById('chan-col');
 const mba = document.querySelector('.mba');
 const target = document.getElementById('target');
-const showBtn = document.getElementById('show-btn');
 const output = document.getElementById('output');
 const genBtn = document.getElementById('gen-btn');
 const rowsInput = document.getElementById('rows-input');
@@ -38,7 +37,7 @@ mba?.addEventListener('click', () => {
   mba.classList.toggle('active');
 });
 
-showBtn?.addEventListener('click', () => {
+target?.addEventListener('click', () => {
   const classesArray = Array.from(target.classList);
   console.log('Class list (Array):', classesArray);
   console.log('Class line:', target.className);
