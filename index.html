@@ -8,7 +8,7 @@
 </head>
 <body>
   <div class="tabs-nav">
-    <h1 class="tab-btn active">Lesson 1</h1>
+    <h1 class="tab-btn tab-active">Lesson 1</h1>
     <h1 class="tab-btn">Lesson 2</h1>
     <h1 class="tab-btn">Lesson 3</h1>
     <h1 class="tab-btn">Lesson 4</h1>
@@ -16,7 +16,7 @@
   </div>
 
   <div class="tabs-content">
-    <div class="les1 active">
+    <div class="les1 active-lesson">
       <p id="hworld">It'll appear here</p>
       <button id="hworld-btn">Press to show "Hello World"</button>
       <button id="mknewdiv">Press to make a new "div"</button>
@@ -43,12 +43,41 @@
     </div>
 
     <div class="les5">
-      <form id="todo-form" class="todo-form">
-        <input type="text" id="todo-input" placeholder="Enter task..." required autocomplete="off">
-        <button type="submit" id="add-btn">Add Task</button>
-      </form>
-      <div id="todo-status" class="todo-status"></div>
+      <div class="todo-top-bar">
+        <span class="todo-title">Tasks</span>
+        <button type="button" id="add-btn" class="btn-add-trigger" title="Add Task">+</button>
+      </div>
       <ul id="todo-list" class="todo-list"></ul>
+    </div>
+  </div>
+
+  <div id="todo-popup" class="todo-popup" aria-hidden="true">
+    <div class="todo-popup-content">
+      <span class="todo-popup-icon" id="todo-popup-icon">✓</span>
+      <p class="todo-popup-message" id="todo-popup-message">Notification</p>
+      <button type="button" class="todo-popup-btn" id="todo-popup-close">OK</button>
+    </div>
+  </div>
+
+  <div id="add-popup" class="add-popup" aria-hidden="true">
+    <div class="add-popup-content">
+      <h3 class="add-popup-title">Add Task</h3>
+      <input type="text" id="add-task-input" class="add-task-input" placeholder="Enter task..." autocomplete="off">
+      <div class="add-popup-actions">
+        <button type="button" id="add-cancel-btn" class="add-btn-cancel">Cancel</button>
+        <button type="button" id="add-save-btn" class="add-btn-save">Add</button>
+      </div>
+    </div>
+  </div>
+  
+  <div id="edit-popup" class="edit-popup" aria-hidden="true">
+    <div class="edit-popup-content">
+      <h3 class="edit-popup-title">Edit Task</h3>
+      <input type="text" id="edit-task-input" class="edit-task-input" placeholder="Enter task text..." autocomplete="off">
+      <div class="edit-popup-actions">
+        <button type="button" id="edit-cancel-btn" class="edit-btn-cancel">Cancel</button>
+        <button type="button" id="edit-save-btn" class="edit-btn-save">Save</button>
+      </div>
     </div>
   </div>
 

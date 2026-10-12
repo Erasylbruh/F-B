@@ -107,36 +107,165 @@ const API_URL = 'https://dummyjson.com/todos';
 const todoList = document.getElementById('todo-list');
 const todoForm = document.getElementById('todo-form');
 const todoInput = document.getElementById('todo-input');
-const todoStatus = document.getElementById('todo-status');
+const todoPopup = document.getElementById('todo-popup');
+const todoPopupMsg = document.getElementById('todo-popup-message');
+const todoPopupIcon = document.getElementById('todo-popup-icon');
+const todoPopupClose = document.getElementById('todo-popup-close');
 
 let todos = [];
 
-function setTodoStatus(msg, isError = false) {
-  if (!todoStatus) return;
-  todoStatus.textContent = msg;
-  todoStatus.style.color = isError ? '#ef4444' : '#10b981';
-  if (!isError && msg) {
-    setTimeout(() => { todoStatus.textContent = ''; }, 2500);
+function showTodoPopup(message, isError = false) {
+  if (!todoPopup || !todoPopupMsg || !todoPopupIcon) return;
+
+  todoPopupMsg.textContent = message;
+
+  if (isError) {
+    todoPopupIcon.textContent = '✕';
+    todoPopupIcon.className = 'todo-popup-icon error';
+  } else {
+    todoPopupIcon.textContent = '✓';
+    todoPopupIcon.className = 'todo-popup-icon';
+  }
+
+  todoPopup.classList.add('show');
+  todoPopup.setAttribute('aria-hidden', 'false');
+}
+
+function closeTodoPopup() {
+  if (!todoPopup) return;
+  todoPopup.classList.remove('show');
+  todoPopup.setAttribute('aria-hidden', 'true');
+
+}
+
+todoPopupClose?.addEventListener('click', closeTodoPopup);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeTodoPopup();
+    closeEditPopup();
+    closeAddPopup();
+  }
+});
+
+const addBtn = document.getElementById('add-btn');
+const addPopup = document.getElementById('add-popup');
+const addInput = document.getElementById('add-task-input');
+const addSaveBtn = document.getElementById('add-save-btn');
+const addCancelBtn = document.getElementById('add-cancel-btn');
+
+function openAddPopup() {
+  if (!addPopup || !addInput) return;
+  addInput.value = '';
+  addPopup.classList.add('show');
+  addPopup.setAttribute('aria-hidden', 'false');
+
+  setTimeout(() => {
+    addInput.focus();
+  }, 50);
+}
+
+function closeAddPopup() {
+  if (!addPopup) return;
+  addPopup.classList.remove('show');
+  addPopup.setAttribute('aria-hidden', 'true');
+}
+
+function handleSaveAdd() {
+  if (!addInput) return;
+  const val = addInput.value.trim();
+  if (val) {
+    addTodo(val);
+    closeAddPopup();
+  } else {
+    addInput.focus();
   }
 }
 
+addBtn?.addEventListener('click', openAddPopup);
+addSaveBtn?.addEventListener('click', handleSaveAdd);
+addCancelBtn?.addEventListener('click', closeAddPopup);
+addInput?.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    handleSaveAdd();
+  }
+});
+
+
+// --- Pop-up для редактирования задачи ---
+const editPopup = document.getElementById('edit-popup');
+const editInput = document.getElementById('edit-task-input');
+const editSaveBtn = document.getElementById('edit-save-btn');
+const editCancelBtn = document.getElementById('edit-cancel-btn');
+
+let currentEditingId = null;
+
+function openEditPopup(id, initialText) {
+  currentEditingId = id;
+  if (!editPopup || !editInput) return;
+
+  editInput.value = initialText || '';
+  editPopup.classList.add('show');
+  editPopup.setAttribute('aria-hidden', 'false');
+
+  setTimeout(() => {
+    editInput.focus();
+    editInput.select();
+  }, 50);
+}
+
+function closeEditPopup() {
+  currentEditingId = null;
+  if (!editPopup) return;
+  editPopup.classList.remove('show');
+  editPopup.setAttribute('aria-hidden', 'true');
+}
+
+function handleSaveEdit() {
+  if (currentEditingId === null) return;
+  const newText = editInput.value.trim();
+  if (newText) {
+    updateTodo(currentEditingId, { todo: newText });
+    closeEditPopup();
+  } else {
+    editInput.focus();
+  }
+}
+
+editSaveBtn?.addEventListener('click', handleSaveEdit);
+editCancelBtn?.addEventListener('click', closeEditPopup);
+
+// Backdrop click behavior for all popups
+[addPopup, editPopup, todoPopup].forEach(popup => {
+  popup?.addEventListener('click', (e) => {
+    if (e.target === popup) {
+      popup.classList.remove('show');
+      popup.setAttribute('aria-hidden', 'true');
+    }
+  });
+});
+editInput?.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    handleSaveEdit();
+  }
+});
+
+
 async function fetchTodos() {
-  setTodoStatus('Loading tasks from DummyJSON...');
   try {
     const res = await fetch(`${API_URL}?limit=4`);
     if (!res.ok) throw new Error('Network error');
     const data = await res.json();
     todos = data.todos;
     renderTodos();
-    setTodoStatus('');
   } catch (err) {
     console.error(err);
-    setTodoStatus('Failed to load tasks', true);
+    showTodoPopup('Failed to load tasks', true);
   }
 }
 
 async function addTodo(taskText) {
-  setTodoStatus('Saving task...');
   try {
     const res = await fetch(`${API_URL}/add`, {
       method: 'POST',
@@ -153,41 +282,43 @@ async function addTodo(taskText) {
     created.id = Date.now();
     todos.unshift(created);
     renderTodos();
-    setTodoStatus('Task created!');
+    showTodoPopup('Task created!');
   } catch (err) {
     console.error(err);
-    setTodoStatus('Failed to add task', true);
+    showTodoPopup('Failed to add task', true);
   }
 }
 
 async function updateTodo(id, changes) {
-  setTodoStatus('Updating...');
   try {
-    await fetch(`${API_URL}/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(changes)
-    });
+    if (id <= 150) {
+      await fetch(`${API_URL}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(changes)
+      });
+    }
 
     todos = todos.map(t => t.id === id ? { ...t, ...changes } : t);
     renderTodos();
-    setTodoStatus('Task updated');
+    showTodoPopup('Task updated!');
   } catch (err) {
     console.error(err);
-    setTodoStatus('Failed to update task', true);
+    showTodoPopup('Failed to update task', true);
   }
 }
 
 async function deleteTodo(id) {
-  setTodoStatus('Deleting...');
   try {
-    await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+    if (id <= 150) {
+      await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+    }
     todos = todos.filter(t => t.id !== id);
     renderTodos();
-    setTodoStatus('Task deleted');
+    showTodoPopup('Task deleted!');
   } catch (err) {
     console.error(err);
-    setTodoStatus('Failed to delete task', true);
+    showTodoPopup('Failed to delete task', true);
   }
 }
 
@@ -220,15 +351,6 @@ function renderTodos() {
   });
 }
 
-todoForm?.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const val = todoInput.value.trim();
-  if (val) {
-    addTodo(val);
-    todoInput.value = '';
-  }
-});
-
 todoList?.addEventListener('click', (e) => {
   const row = e.target.closest('.todo-item');
   if (!row) return;
@@ -245,43 +367,17 @@ todoList?.addEventListener('click', (e) => {
   }
 
   if (e.target.classList.contains('btn-edit')) {
-    const updated = prompt('Edit task text:', current?.todo);
-    if (updated !== null && updated.trim() !== '') {
-      updateTodo(id, { todo: updated.trim() });
-    }
+    openEditPopup(id, current?.todo);
   }
 });
 
 fetchTodos();
-
-// --- Tabs Switching Logic (h1 as switchers) ---
 const tabButtons = document.querySelectorAll('.tabs-nav h1');
-const lessonPanels = [
-  document.querySelector('.les1'),
-  document.querySelector('.les2'),
-  document.querySelector('.les3'),
-  document.querySelector('.les4'),
-  document.querySelector('.les5')
-];
+const lessonPanels = document.querySelectorAll('.tabs-content > div');
 
 function selectTab(index) {
-  tabButtons.forEach((tab, i) => {
-    if (i === index) {
-      tab.classList.add('active', 'tab-active');
-    } else {
-      tab.classList.remove('active', 'tab-active');
-    }
-  });
-
-  lessonPanels.forEach((panel, i) => {
-    if (panel) {
-      if (i === index) {
-        panel.classList.add('active', 'active-lesson');
-      } else {
-        panel.classList.remove('active', 'active-lesson');
-      }
-    }
-  });
+  tabButtons.forEach((tab, i) => tab.classList.toggle('tab-active', i === index));
+  lessonPanels.forEach((panel, i) => panel.classList.toggle('active-lesson', i === index));
 }
 
 tabButtons.forEach((tab, index) => {
@@ -290,5 +386,4 @@ tabButtons.forEach((tab, index) => {
   });
 });
 
-// Активируем первый таб (Lesson 1) по умолчанию
 selectTab(0);
