@@ -87,7 +87,7 @@ button {
   width: 100%;
 }
 
-.les1, .les2, .les3, .les4, .les5 {
+.les1, .les2, .les3, .les4, .les5, .les6 {
   display: none;
   background-color: var(--bg-card);
   padding: 15px;
@@ -101,7 +101,7 @@ button {
   box-sizing: border-box;
 }
 
-.les1.active-lesson, .les2.active-lesson, .les3.active-lesson, .les4.active-lesson, .les5.active-lesson {
+.les1.active-lesson, .les2.active-lesson, .les3.active-lesson, .les4.active-lesson, .les5.active-lesson, .les6.active-lesson {
   display: flex;
 }
 
@@ -136,7 +136,6 @@ button {
   border-radius: 4px;
 }
 
-/* Scoped class for lesson 2 interactive toggle */
 .mba.active {
   background-color: red;
   color: #fff;
@@ -267,7 +266,6 @@ input {
   border: none;
 }
 
-/* --- Pop-up для Lesson 5 --- */
 .todo-popup {
   position: fixed;
   top: 0;
@@ -468,4 +466,86 @@ input {
 .add-btn-save:hover {
   background-color: #1d4ed8;
   transform: translateY(-1px);
+}
+
+.users-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+
+.users-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.btn-reload-users {
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  border: 1px solid var(--border-color);
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-reload-users:hover {
+  background-color: var(--item-bg);
+  transform: translateY(-1px);
+}
+
+.users-status {
+  font-size: 14px;
+  margin-bottom: 10px;
+  min-height: 18px;
+  text-align: center;
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background-color: var(--item-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+}
+
+.user-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.user-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--btn-bg);
+  border: 2px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-color);
+  word-break: break-word;
 }

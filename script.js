@@ -192,7 +192,6 @@ addInput?.addEventListener('keydown', (e) => {
 });
 
 
-// --- Pop-up для редактирования задачи ---
 const editPopup = document.getElementById('edit-popup');
 const editInput = document.getElementById('edit-task-input');
 const editSaveBtn = document.getElementById('edit-save-btn');
@@ -235,7 +234,6 @@ function handleSaveEdit() {
 editSaveBtn?.addEventListener('click', handleSaveEdit);
 editCancelBtn?.addEventListener('click', closeEditPopup);
 
-// Backdrop click behavior for all popups
 [addPopup, editPopup, todoPopup].forEach(popup => {
   popup?.addEventListener('click', (e) => {
     if (e.target === popup) {
@@ -372,6 +370,61 @@ todoList?.addEventListener('click', (e) => {
 });
 
 fetchTodos();
+
+const USERS_API_URL = 'https://dummyjson.com/users?limit=6';
+const usersContainer = document.getElementById('users-container');
+const usersStatus = document.getElementById('users-status');
+const reloadUsersBtn = document.getElementById('reload-users-btn');
+
+async function fetchUsers() {
+  if (!usersContainer) return;
+  if (usersStatus) {
+    usersStatus.textContent = 'Loading users...';
+    usersStatus.style.color = 'var(--text-color)';
+  }
+  usersContainer.innerHTML = '';
+
+  try {
+    const res = await fetch(USERS_API_URL);
+    if (!res.ok) throw new Error('Network error');
+    const data = await res.json();
+    renderUsers(data.users || []);
+    if (usersStatus) usersStatus.textContent = '';
+  } catch (err) {
+    console.error(err);
+    if (usersStatus) {
+      usersStatus.textContent = 'Failed to load users';
+      usersStatus.style.color = '#ef4444';
+    }
+  }
+}
+
+function renderUsers(users) {
+  if (!usersContainer) return;
+  usersContainer.innerHTML = '';
+
+  if (users.length === 0) {
+    usersContainer.innerHTML = '<p style="text-align:center; opacity:0.6; grid-column: 1 / -1;">No users</p>';
+    return;
+  }
+
+  users.forEach(user => {
+    const fullName = `${user.firstName} ${user.lastName}`;
+    const card = document.createElement('div');
+    card.className = 'user-card';
+
+    card.innerHTML = `
+      <img class="user-avatar" src="${user.image}" alt="${fullName}" loading="lazy">
+      <span class="user-name">${fullName}</span>
+    `;
+
+    usersContainer.appendChild(card);
+  });
+}
+
+reloadUsersBtn?.addEventListener('click', fetchUsers);
+fetchUsers();
+
 const tabButtons = document.querySelectorAll('.tabs-nav h1');
 const lessonPanels = document.querySelectorAll('.tabs-content > div');
 
