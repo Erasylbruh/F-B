@@ -254,3 +254,42 @@ todoList?.addEventListener('click', (e) => {
 });
 
 fetchTodos();
+
+// --- Tabs Switching Logic (h1 as switchers) ---
+const tabButtons = document.querySelectorAll('.tabs-nav h1');
+const lessonPanels = [
+  document.querySelector('.les1'),
+  document.querySelector('.les2'),
+  document.querySelector('.les3'),
+  document.querySelector('.les4'),
+  document.querySelector('.les5')
+];
+
+function selectTab(index) {
+  tabButtons.forEach((tab, i) => {
+    if (i === index) {
+      tab.classList.add('active', 'tab-active');
+    } else {
+      tab.classList.remove('active', 'tab-active');
+    }
+  });
+
+  lessonPanels.forEach((panel, i) => {
+    if (panel) {
+      if (i === index) {
+        panel.classList.add('active', 'active-lesson');
+      } else {
+        panel.classList.remove('active', 'active-lesson');
+      }
+    }
+  });
+}
+
+tabButtons.forEach((tab, index) => {
+  tab.addEventListener('click', () => {
+    selectTab(index);
+  });
+});
+
+// Активируем первый таб (Lesson 1) по умолчанию
+selectTab(0);

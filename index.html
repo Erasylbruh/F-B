@@ -7,46 +7,51 @@
   <title>JS Practice</title>
 </head>
 <body>
-  <h1>Lesson 1</h1>
-  <div class="les1">
-    <p id="hworld">It'll appear here</p>
-    <button id="hworld-btn">Press to show "Hello World"</button>
-    <button id="mknewdiv">Press to make a new "div"</button>
-    <p class="old-element">Im an old element</p>
-    <button id="rmolde">Remove old element</button>
-    <p id="chan-col">This is changable text (click here)</p>
+  <div class="tabs-nav">
+    <h1 class="tab-btn active">Lesson 1</h1>
+    <h1 class="tab-btn">Lesson 2</h1>
+    <h1 class="tab-btn">Lesson 3</h1>
+    <h1 class="tab-btn">Lesson 4</h1>
+    <h1 class="tab-btn">Lesson 5</h1>
   </div>
 
-  <h1>Lesson 2</h1>
-  <div class="les2">
-    <p class="mba">This text can be activated (click here)</p>
-    <p id="target" class="card active click usable">Target element</p>
-    <button id="show-btn">Show all classes</button>
-    <p id="output">There they'll appear</p>
-  </div>
+  <div class="tabs-content">
+    <div class="les1 active">
+      <p id="hworld">It'll appear here</p>
+      <button id="hworld-btn">Press to show "Hello World"</button>
+      <button id="mknewdiv">Press to make a new "div"</button>
+      <p class="old-element">Im an old element</p>
+      <button id="rmolde">Remove old element</button>
+      <p id="chan-col">This is changable text (click here)</p>
+    </div>
 
-  <h1>Lesson 3</h1>
-  <div class="les3">
-    <label>Rows: <input type="number" id="rows-input" value="3" min="1"></label>
-    <label>Columns: <input type="number" id="cols-input" value="4" min="1"></label>
-    <button id="gen-btn">Generate table</button>
-    <div id="tableContainer"></div>
-    <div class="stats">Selected: <b id="counter">0</b></div>
-  </div>
+    <div class="les2">
+      <p class="mba">This text can be activated (click here)</p>
+      <p id="target" class="card active click usable">Target element</p>
+      <button id="show-btn">Show all classes</button>
+      <p id="output">There they'll appear</p>
+    </div>
 
-  <h1>Lesson 4</h1>
-  <div class="les4">
-    <button id="chan-theme">Switch to Dark Theme</button>
-  </div>
+    <div class="les3">
+      <label>Rows: <input type="number" id="rows-input" value="3" min="1"></label>
+      <label>Columns: <input type="number" id="cols-input" value="4" min="1"></label>
+      <button id="gen-btn">Generate table</button>
+      <div id="tableContainer"></div>
+      <div class="stats">Selected: <b id="counter">0</b></div>
+    </div>
 
-  <h1>Lesson 5</h1>
-  <div class="les5">
-    <form id="todo-form" class="todo-form">
-      <input type="text" id="todo-input" placeholder="Enter task..." required autocomplete="off">
-      <button type="submit" id="add-btn">Add Task</button>
-    </form>
-    <div id="todo-status" class="todo-status"></div>
-    <ul id="todo-list" class="todo-list"></ul>
+    <div class="les4">
+      <button id="chan-theme">Switch to Dark Theme</button>
+    </div>
+
+    <div class="les5">
+      <form id="todo-form" class="todo-form">
+        <input type="text" id="todo-input" placeholder="Enter task..." required autocomplete="off">
+        <button type="submit" id="add-btn">Add Task</button>
+      </form>
+      <div id="todo-status" class="todo-status"></div>
+      <ul id="todo-list" class="todo-list"></ul>
+    </div>
   </div>
 
   <script src="script.js"></script>
