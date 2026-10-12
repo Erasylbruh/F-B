@@ -354,7 +354,6 @@ input {
   transform: translateY(-1px);
 }
 
-/* --- Consolidate shared popup styling for both Add and Edit modals --- */
 .edit-popup,
 .add-popup {
   position: fixed;
