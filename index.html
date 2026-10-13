@@ -13,7 +13,6 @@
     <h1 class="tab-btn">Lesson 3</h1>
     <h1 class="tab-btn">Lesson 4</h1>
     <h1 class="tab-btn">Lesson 5</h1>
-    <h1 class="tab-btn">Lesson 6</h1>
   </div>
 
   <div class="tabs-content">
@@ -50,32 +49,76 @@
       </div>
       <ul id="todo-list" class="todo-list"></ul>
     </div>
-
-    <div class="les6">
-      <div class="users-header">
-        <span class="users-title">Users</span>
-        <button type="button" id="reload-users-btn" class="btn-reload-users" title="Refresh users">↻ Refresh</button>
-      </div>
-      <div id="users-status" class="users-status"></div>
-      <div id="users-container" class="users-grid"></div>
-    </div>
-  </div>
-
-  <div id="todo-popup" class="todo-popup" aria-hidden="true">
-    <div class="todo-popup-content">
-      <span class="todo-popup-icon" id="todo-popup-icon">✓</span>
-      <p class="todo-popup-message" id="todo-popup-message">Notification</p>
-      <button type="button" class="todo-popup-btn" id="todo-popup-close">OK</button>
-    </div>
   </div>
 
   <div id="add-popup" class="add-popup" aria-hidden="true">
     <div class="add-popup-content">
       <h3 class="add-popup-title">Add Task</h3>
-      <input type="text" id="add-task-input" class="add-task-input" placeholder="Enter task..." autocomplete="off">
+      <div class="add-popup-field">
+        <label for="add-task-user" class="add-field-label">Assign to user:</label>
+        <select id="add-task-user" class="add-task-user-select"></select>
+      </div>
+      <div class="add-popup-field">
+        <label for="add-task-input" class="add-field-label">Task description:</label>
+        <input type="text" id="add-task-input" class="add-task-input" placeholder="Enter task..." autocomplete="off">
+      </div>
       <div class="add-popup-actions">
         <button type="button" id="add-cancel-btn" class="add-btn-cancel">Cancel</button>
         <button type="button" id="add-save-btn" class="add-btn-save">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="user-modal" class="user-modal" aria-hidden="true">
+    <div class="user-modal-dialog">
+      <button type="button" class="user-modal-close" id="user-modal-close" title="Close">✕</button>
+      
+      <div class="user-modal-body">
+        <div class="user-modal-left">
+          <div class="user-modal-profile-header">
+            <img id="user-modal-avatar" class="user-modal-avatar" src="" alt="Avatar">
+            <div class="user-modal-name-group">
+              <h3 id="user-modal-name" class="user-modal-name">User Name</h3>
+              <span id="user-modal-username" class="user-modal-username">@username</span>
+            </div>
+          </div>
+          <div class="user-modal-details">
+            <div class="user-detail-item">
+              <span class="user-detail-label">📧 Email:</span>
+              <span id="user-modal-email" class="user-detail-val">-</span>
+            </div>
+            <div class="user-detail-item">
+              <span class="user-detail-label">📞 Phone:</span>
+              <span id="user-modal-phone" class="user-detail-val">-</span>
+            </div>
+            <div class="user-detail-item">
+              <span class="user-detail-label">👤 Age:</span>
+              <span id="user-modal-age" class="user-detail-val">-</span>
+            </div>
+            <div class="user-detail-item">
+              <span class="user-detail-label">📍 Address:</span>
+              <span id="user-modal-address" class="user-detail-val">-</span>
+            </div>
+            <div class="user-detail-item">
+              <span class="user-detail-label">💼 Company:</span>
+              <span id="user-modal-company" class="user-detail-val">-</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-modal-right">
+          <div class="user-modal-tasks-header">
+            <h4 class="user-modal-tasks-title">Assigned Tasks</h4>
+          </div>
+          
+          <div class="user-modal-add-box">
+            <input type="text" id="user-modal-task-input" class="user-modal-task-input" placeholder="New task for this user..." autocomplete="off">
+            <button type="button" id="user-modal-add-btn" class="user-modal-add-btn" title="Add task">+</button>
+          </div>
+
+          <div id="user-modal-status" class="user-modal-status"></div>
+          <ul id="user-modal-task-list" class="user-modal-task-list"></ul>
+        </div>
       </div>
     </div>
   </div>
@@ -88,6 +131,14 @@
         <button type="button" id="edit-cancel-btn" class="edit-btn-cancel">Cancel</button>
         <button type="button" id="edit-save-btn" class="edit-btn-save">Save</button>
       </div>
+    </div>
+  </div>
+
+  <div id="todo-popup" class="todo-popup" aria-hidden="true">
+    <div class="todo-popup-content">
+      <span class="todo-popup-icon" id="todo-popup-icon">✓</span>
+      <p class="todo-popup-message" id="todo-popup-message">Notification</p>
+      <button type="button" class="todo-popup-btn" id="todo-popup-close">OK</button>
     </div>
   </div>
 
